@@ -60,5 +60,5 @@ Simply double-click the **`start.bat`** file in the root directory. This will la
 
 ## 📜 License
 Original Pterodactyl® Copyright © 2015 - 2022 Dane Everitt and contributors.
-Windows Native conversion by Antigravity.
+Windows Native conversion by JustCole.
 Code released under the [MIT License](./LICENSE.md).
