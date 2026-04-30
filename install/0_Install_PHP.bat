@@ -38,7 +38,7 @@ if not exist "php.ini" (
 )
 
 :: Use powershell to uncomment extensions
-powershell -Command "$i = Get-Content php.ini; $i = $i -replace ';extension_dir = \"ext\"', 'extension_dir = \"ext\"'; $i = $i -replace ';extension=curl', 'extension=curl'; $i = $i -replace ';extension=fileinfo', 'extension=fileinfo'; $i = $i -replace ';extension=gd', 'extension=gd'; $i = $i -replace ';extension=mbstring', 'extension=mbstring'; $i = $i -replace ';extension=openssl', 'extension=openssl'; $i = $i -replace ';extension=pdo_mysql', 'extension=pdo_mysql'; $i = $i -replace ';extension=sodium', 'extension=sodium'; $i = $i -replace ';extension=zip', 'extension=zip'; Set-Content php.ini $i"
+powershell -Command "$i = Get-Content php.ini; $i = $i -replace ';extension_dir = \"ext\"', 'extension_dir = \"ext\"'; $i = $i -replace ';extension=curl', 'extension=curl'; $i = $i -replace ';extension=fileinfo', 'extension=fileinfo'; $i = $i -replace ';extension=gd', 'extension=gd'; $i = $i -replace ';extension=mbstring', 'extension=mbstring'; $i = $i -replace ';extension=openssl', 'extension=openssl'; $i = $i -replace ';extension=pdo_mysql', 'extension=pdo_mysql'; $i = $i -replace ';extension=pdo_sqlite', 'extension=pdo_sqlite'; $i = $i -replace ';extension=sqlite3', 'extension=sqlite3'; $i = $i -replace ';extension=sodium', 'extension=sodium'; $i = $i -replace ';extension=zip', 'extension=zip'; Set-Content php.ini $i"
 
 echo.
 echo ========================================
