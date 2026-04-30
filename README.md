@@ -31,10 +31,8 @@
 4.  Set `extension_dir = "ext"`.
 
 #### **Windows PATH Setup**
-1.  Search for "Edit the system environment variables" in your Start Menu.
-2.  Click **Environment Variables** > Find **Path** in System Variables > **Edit**.
-3.  Click **New** and add `C:\php`.
-4.  Restart any open terminals.
+1.  Right-click **`setup_php_path.bat`** and select **"Run as Administrator"**.
+2.  Restart any open terminals.
 
 #### **Database Setup**
 1.  Install MariaDB and open HeidiSQL or your preferred client.
@@ -43,12 +41,13 @@
 
 ### 3. Installation
 1.  Extract the project to your folder.
-2.  Run `composer install --no-dev --optimize-autoloader --ignore-platform-req=ext-posix`.
-3.  Run `npm install` inside the `daemon/` folder.
-4.  Configure your `.env` file with your database and app settings.
-5.  Generate your key: `php artisan key:generate`.
+2.  Open the **`install/`** folder.
+3.  Right-click **`1_Setup_PHP_Path.bat`** and select **"Run as Administrator"**.
+4.  Run **`2_Install_Dependencies.bat`** to download all necessary files.
+5.  Configure your **`.env`** file with your database and app settings.
+6.  Generate your key: `php artisan key:generate`.
 
-### 3. Launching
+### 4. Launching
 Simply double-click the **`start.bat`** file in the root directory. This will launch:
 *   The Panel (Web UI) on `http://localhost:8000`
 *   The Wings-Win Daemon on `http://localhost:8080`
