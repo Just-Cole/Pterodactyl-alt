@@ -34,18 +34,21 @@
 1.  Right-click **`setup_php_path.bat`** and select **"Run as Administrator"**.
 2.  Restart any open terminals.
 
-#### **Database Setup**
-1.  Install MariaDB and open HeidiSQL or your preferred client.
-2.  Create a new database named `panel`.
-3.  Update your `.env` file with your database password.
+#### **Database Setup (Pick ONE)**
+*   **Option A: Local SQLite (Easiest)**
+    1.  Run **`3_Setup_Local_Database.bat`**. This creates a local database file and sets everything up automatically.
+*   **Option B: MySQL / MariaDB (Professional)**
+    1.  Install MariaDB and create a database named `panel`.
+    2.  Update your **`.env`** file with your database credentials.
+    3.  Run `php artisan migrate --seed`.
 
 ### 3. Installation
+The easiest way to install is to use the Master Auto-Installer:
 1.  Extract the project to your folder.
-2.  Open the **`install/`** folder.
-3.  Right-click **`1_Setup_PHP_Path.bat`** and select **"Run as Administrator"**.
-4.  Run **`2_Install_Dependencies.bat`** to download all necessary files.
-5.  Configure your **`.env`** file with your database and app settings.
-6.  Generate your key: `php artisan key:generate`.
+2.  Right-click **`AUTO_INSTALLER.bat`** and select **"Run as Administrator"**.
+3.  Follow the on-screen prompts (it will handle everything for you!).
+
+*(Note: Individual setup scripts are still available in the `install/` folder if you prefer manual control.)*
 
 ### 4. Launching
 Simply double-click the **`start.bat`** file in the root directory. This will launch:
