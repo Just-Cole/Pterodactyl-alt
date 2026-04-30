@@ -35,15 +35,21 @@ echo Starting full automation...
 pause
 
 echo [STEP 0] Installing PHP and Node.js...
-call install\0_Install_PHP.bat
+pushd install
+call 0_Install_PHP.bat
+popd
 if %errorlevel% neq 0 goto :ERROR
 
 echo [STEP 1] Setting up Windows Path...
-call install\1_Setup_PHP_Path.bat
+pushd install
+call 1_Setup_PHP_Path.bat
+popd
 if %errorlevel% neq 0 goto :ERROR
 
 echo [STEP 2] Installing Project Dependencies...
-call install\2_Install_Dependencies.bat
+pushd install
+call 2_Install_Dependencies.bat
+popd
 if %errorlevel% neq 0 goto :ERROR
 
 echo.
@@ -52,14 +58,22 @@ set /p dbchoice="Do you want to use a Local Database (SQLite)? [y/n]: "
 
 if /i "%dbchoice%"=="y" (
     echo [STEP 3] Setting up Local SQLite...
-    call install\3_Setup_Local_Database.bat
+    pushd install
+    call 3_Setup_Local_Database.bat
+    popd
     if %errorlevel% neq 0 goto :ERROR
 ) else (
-    echo [STEP 3] Skipping Local DB. Please configure .env manually for MySQL.
+    echo [STEP 3] Setting up Local MariaDB...
+    pushd install
+    call 3_Setup_Local_Database.bat
+    popd
+    if %errorlevel% neq 0 goto :ERROR
 )
 
 echo [STEP 4] Finishing Setup...
-call install\4_Finish_Setup.bat
+pushd install
+call 4_Finish_Setup.bat
+popd
 if %errorlevel% neq 0 goto :ERROR
 
 echo.

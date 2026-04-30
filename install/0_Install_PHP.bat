@@ -14,13 +14,14 @@ if exist "%PHP_DIR%\php.exe" (
     goto :CONFIGURE
 )
 
-:: 2. Download PHP and Node.js
-echo [1/3] Downloading PHP 8.3 and Node.js...
+:: 2. Download Requirements
+echo [1/4] Downloading PHP, Node.js, and MariaDB...
 powershell -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest -Uri '%PHP_URL%' -OutFile 'php.zip'"
 powershell -Command "Invoke-WebRequest -Uri 'https://nodejs.org/dist/v22.11.0/node-v22.11.0-x64.msi' -OutFile 'node.msi'"
+powershell -Command "Invoke-WebRequest -Uri 'https://archive.mariadb.org/mariadb-11.4.2/winx64-packages/mariadb-11.4.2-winx64.msi' -OutFile 'mariadb.msi'"
 
 :: 3. Install Node.js
-echo [2/3] Installing Node.js (Passive)...
+echo [2/4] Installing Node.js (Passive)...
 start /wait msiexec /i node.msi /passive /norestart
 del node.msi
 
@@ -45,4 +46,3 @@ echo ========================================
 echo   PHP is installed and configured!
 echo   NEXT STEP: Run 1_Setup_PHP_Path.bat
 echo ========================================
-pause
