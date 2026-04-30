@@ -16,12 +16,32 @@
 ## 🛠️ Quick Start
 
 ### 1. Requirements
-*   **PHP 8.2 or 8.3** (Thread Safe)
-*   **Node.js v20+**
-*   **MariaDB / MySQL** (Local or Remote)
-*   **Composer**
+*   **[PHP 8.3 (x64 Thread Safe)](https://windows.php.net/downloads/releases/archives/php-8.3.30-Win32-vs16-x64.zip)** - Official Zip archive.
+*   **[Node.js (LTS)](https://nodejs.org/en/download/prebuilt-installer)** - Standard Windows Installer.
+*   **[MariaDB](https://mariadb.org/download/)** - Recommended database.
+*   **[Composer](https://getcomposer.org/Composer-Setup.exe)** - Windows Installer for PHP dependencies.
 
-### 2. Installation
+### 2. Detailed Setup Guide
+
+#### **PHP Configuration**
+1.  Extract the PHP zip to `C:\php`.
+2.  Rename `php.ini-development` to `php.ini`.
+3.  Open `php.ini` and enable these extensions (remove the `;`):
+    *   `extension=curl`, `fileinfo`, `gd`, `mbstring`, `openssl`, `pdo_mysql`, `sodium`, `zip`
+4.  Set `extension_dir = "ext"`.
+
+#### **Windows PATH Setup**
+1.  Search for "Edit the system environment variables" in your Start Menu.
+2.  Click **Environment Variables** > Find **Path** in System Variables > **Edit**.
+3.  Click **New** and add `C:\php`.
+4.  Restart any open terminals.
+
+#### **Database Setup**
+1.  Install MariaDB and open HeidiSQL or your preferred client.
+2.  Create a new database named `panel`.
+3.  Update your `.env` file with your database password.
+
+### 3. Installation
 1.  Extract the project to your folder.
 2.  Run `composer install --no-dev --optimize-autoloader --ignore-platform-req=ext-posix`.
 3.  Run `npm install` inside the `daemon/` folder.
