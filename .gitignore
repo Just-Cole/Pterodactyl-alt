@@ -1,0 +1,29 @@
+# Pterodactyl Panel
+/vendor
+/.env
+/.idea
+/.vscode
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/logs/*
+/public/build
+/public/hot
+/node_modules
+*.log
+
+# Windows Native Daemon (Wings-Win)
+/daemon/node_modules
+/daemon/.env
+/daemon/host.key
+/daemon/src/system/*.exe
+/daemon/src/system/JobRunner.exe
+
+# Composer Tools
+composer
+composer-setup.php
+composer.phar
+
+# OS Files
+.DS_Store
+Thumbs.db
