@@ -38,10 +38,34 @@ class ServerInstallController extends Controller
         }
 
         return new JsonResponse([
-            'container_image' => $egg->copy_script_container,
+            'container_image' => $server->image, // Use server image, not egg default!
             'entrypoint' => $egg->copy_script_entry,
             'script' => $egg->copy_script_install,
+            'environment' => $server->variables->pluck('variable_value', 'env_variable')->toArray(),
+            'limits' => [
+                'memory' => $server->memory,
+                'cpu' => $server->cpu,
+                'disk' => $server->disk,
+            ],
         ]);
+    }
+
+    /**
+     * Updates the server image permanently (used for Smart Upgrades).
+     */
+    public function updateImage(Request $request, string $uuid): JsonResponse
+    {
+        $server = $this->repository->getByUuid($uuid);
+        if (! $server->node->is($request->attributes->get('node'))) {
+            throw new HttpForbiddenException('Requesting node does not have permission to access this server.');
+        }
+
+        $image = $request->input('image');
+        if ($image) {
+            $this->repository->update($server->id, ['image' => $image], true, true);
+        }
+
+        return new JsonResponse([], Response::HTTP_NO_CONTENT);
     }
 
     /**

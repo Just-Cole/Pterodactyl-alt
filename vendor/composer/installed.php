@@ -3,7 +3,7 @@
         'name' => 'pterodactyl/panel',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '7cbb3bbcc957e3c9d9f70889fe6d85c819bf0ecc',
+        'reference' => '5f1850e9843b007122b64ff427107ac71055d977',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -824,7 +824,7 @@
         'pterodactyl/panel' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '7cbb3bbcc957e3c9d9f70889fe6d85c819bf0ecc',
+            'reference' => '5f1850e9843b007122b64ff427107ac71055d977',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

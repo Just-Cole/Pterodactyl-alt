@@ -1,77 +1,90 @@
 @echo off
+SETLOCAL EnableDelayedExpansion
 TITLE Pterodactyl-alt Master Auto-Installer
 echo ========================================
 echo   Pterodactyl-alt: MASTER AUTO-INSTALLER
 echo ========================================
 echo.
 
-:: 1. Check for Administrator privileges
-net session >nul 2>&1
-if %errorLevel% == 0 (
-    echo [OK] Running as Administrator.
-) else (
-    echo [ERROR] Please right-click this file and select "Run as Administrator".
-    pause
-    exit /b
+:: 1. Initialize Defaults
+set "CUR_EMAIL=admin@example.com"
+set "CUR_USER=admin"
+set "CUR_PASS=password"
+set "CUR_DB_PASS=password"
+
+:: 2. Load ONLY from Cache (The installer's memory)
+if exist .installer_cache (
+    for /f "usebackq tokens=1* delims==" %%A in (".installer_cache") do (
+        if "%%A"=="ADMIN_EMAIL" set "CUR_EMAIL=%%B"
+        if "%%A"=="ADMIN_USER" set "CUR_USER=%%B"
+        if "%%A"=="ADMIN_PASS" set "CUR_PASS=%%B"
+        if "%%A"=="DB_PASS" set "CUR_DB_PASS=%%B"
+    )
 )
 
+echo Please provide your setup info. 
+echo Press [ENTER] to keep the [current] value.
 echo.
-echo This will completely set up Pterodactyl-alt. 
-echo Please provide the following info for your Admin Account:
+
+set /p ADMIN_EMAIL="Admin Email [!CUR_EMAIL!]: "
+if "!ADMIN_EMAIL!"=="" set "ADMIN_EMAIL=!CUR_EMAIL!"
+
+set /p ADMIN_USER="Admin Username [!CUR_USER!]: "
+if "!ADMIN_USER!"=="" set "ADMIN_USER=!CUR_USER!"
+
+set /p ADMIN_PASS="Admin Password [!CUR_PASS!]: "
+if "!ADMIN_PASS!"=="" set "ADMIN_PASS=!CUR_PASS!"
+
 echo.
-set /p ADMIN_EMAIL="Enter Admin Email: "
-set /p ADMIN_USER="Enter Admin Username: "
-set /p ADMIN_PASS="Enter Admin Password: "
-echo.
-echo [STEP 3] Database Choice
-set /p dbchoice="Do you want to use a Local Database (SQLite)? [y/n]: "
+set /p dbchoice="Use Local Database (SQLite)? [y/n]: "
 
 if /i "%dbchoice%" neq "y" (
-    set /p DB_PASS="Enter a password for the MySQL Root user: "
+    set /p DB_PASS="MySQL Root Password [!CUR_DB_PASS!]: "
+    if "!DB_PASS!"=="" set "DB_PASS=!CUR_DB_PASS!"
 )
+
+:: Save settings to cache (so the installer remembers NEXT time)
+(
+    echo ADMIN_EMAIL=!ADMIN_EMAIL!
+    echo ADMIN_USER=!ADMIN_USER!
+    echo ADMIN_PASS=!ADMIN_PASS!
+    echo DB_PASS=!DB_PASS!
+) > .installer_cache
 
 echo.
 echo Starting full automation...
-pause
 
-echo [STEP 0] Installing PHP and Node.js...
-pushd install
+:: --- STEP 0 ---
+echo [DEBUG] Calling Step 0...
+pushd "%~dp0install"
 call 0_Install_PHP.bat
 popd
 if %errorlevel% neq 0 goto :ERROR
 
-echo [STEP 1] Setting up Windows Path...
-pushd install
+:: --- STEP 1 ---
+echo [DEBUG] Calling Step 1...
+pushd "%~dp0install"
 call 1_Setup_PHP_Path.bat
 popd
 if %errorlevel% neq 0 goto :ERROR
 
-echo [STEP 2] Installing Project Dependencies...
-pushd install
+:: --- STEP 2 ---
+echo [DEBUG] Calling Step 2...
+pushd "%~dp0install"
 call 2_Install_Dependencies.bat
 popd
 if %errorlevel% neq 0 goto :ERROR
 
-echo.
-echo [STEP 3] Database Choice
-set /p dbchoice="Do you want to use a Local Database (SQLite)? [y/n]: "
+:: --- STEP 3 ---
+echo [DEBUG] Calling Step 3...
+pushd "%~dp0install"
+call 3_Setup_Local_Database.bat
+popd
+if %errorlevel% neq 0 goto :ERROR
 
-if /i "%dbchoice%"=="y" (
-    echo [STEP 3] Setting up Local SQLite...
-    pushd install
-    call 3_Setup_Local_Database.bat
-    popd
-    if %errorlevel% neq 0 goto :ERROR
-) else (
-    echo [STEP 3] Setting up Local MariaDB...
-    pushd install
-    call 3_Setup_Local_Database.bat
-    popd
-    if %errorlevel% neq 0 goto :ERROR
-)
-
-echo [STEP 4] Finishing Setup...
-pushd install
+:: --- STEP 4 ---
+echo [DEBUG] Calling Step 4...
+pushd "%~dp0install"
 call 4_Finish_Setup.bat
 popd
 if %errorlevel% neq 0 goto :ERROR
@@ -79,9 +92,7 @@ if %errorlevel% neq 0 goto :ERROR
 echo.
 echo ========================================
 echo   INSTALLATION COMPLETE!
-echo.
-echo   1. Close this window.
-echo   2. Run 'start.bat' to launch the Panel.
+echo   Run 'start.bat' to launch the Panel.
 echo ========================================
 pause
 exit /b
@@ -90,16 +101,6 @@ exit /b
 echo.
 echo ========================================
 echo   [!] INSTALLATION FAILED
-echo ========================================
-echo.
-echo Something went wrong during the last step.
-echo Please check the following:
-echo   1. Are you connected to the internet?
-echo   2. Did you run this script as Administrator?
-echo   3. Is another program using the files in this folder?
-echo.
-echo You can try running the failed step manually 
-echo from the 'install/' folder to see more details.
 echo ========================================
 pause
 exit /b

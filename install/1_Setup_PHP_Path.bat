@@ -26,5 +26,3 @@ if %errorLevel% == 0 (
     echo.
     echo [ERROR] Failed to update path.
 )
-
-pause

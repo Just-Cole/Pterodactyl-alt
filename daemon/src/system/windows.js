@@ -24,11 +24,12 @@ class WindowsSystem {
      */
     static launchInJobObject(executable, args, options, limits) {
         const helperPath = path.join(__dirname, 'JobRunner.exe');
+        const safeLimits = limits || { memory: 512, cpu: 100 }; // Fallback to 512MB/100% CPU if undefined
         
         // Usage: JobRunner.exe [memory_mb] [cpu_percent] [working_dir] [executable] [args...]
         const helperArgs = [
-            limits.memory || 0,
-            limits.cpu || 0,
+            safeLimits.memory || 0,
+            safeLimits.cpu || 0,
             options.cwd,
             executable,
             ...args
